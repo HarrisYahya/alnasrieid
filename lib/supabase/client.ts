@@ -1,3 +1,4 @@
+// Supabase client setup for database interactions
 import { createClient } from "@supabase/supabase-js";
 
 export const supabase = createClient(

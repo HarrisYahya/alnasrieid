@@ -1,3 +1,4 @@
+// Admin dashboard for managing patients
 "use client";
 
 import { useEffect, useState } from "react";

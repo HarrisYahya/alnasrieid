@@ -1,3 +1,4 @@
+// Main patient registration page with form and real-time count
 "use client";
 
 import { useState } from "react";

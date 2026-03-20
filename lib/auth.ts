@@ -1,3 +1,4 @@
+// Authentication utilities for handling user sign-in, sign-out, and retrieval of user information
 import { supabase } from "./supabase/client";
 
 export const signIn = async (email: string, password: string) => {
