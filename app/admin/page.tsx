@@ -19,25 +19,28 @@ export default function AdminPage() {
 
   // 🔐 Check admin
   const checkAdmin = async () => {
-    const { data } = await supabase.auth.getUser();
-    const user = data.user;
+  const {
+    data: { user },
+    error: userError
+  } = await supabase.auth.getUser();
 
-    if (!user) {
-      router.push("/login");
-      return;
-    }
+  if (!user || userError) {
+    router.push("/login");
+    return;
+  }
 
-    const { data: admin } = await supabase
-      .from("admins")
-      .select("*")
-      .eq("id", user.id)
-      .single();
+  const { data: admin, error: adminError } = await supabase
+    .from("admins")
+    .select("*")
+    .eq("id", user.id)
+    .single();
 
-    if (!admin) {
-      router.push("/");
-    }
-  };
-
+  if (adminError || !admin) {
+    // User is logged in but not an admin
+    router.push("/"); 
+    return;
+  }
+};
   // 📥 Fetch patients
   const fetchPatients = async () => {
     const { data } = await supabase
