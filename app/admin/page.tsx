@@ -62,6 +62,16 @@ export default function AdminPage() {
     fetchPatients();
   };
 
+  // 📩 Mark as messaged
+  const markAsMessaged = async (id: string) => {
+    await supabase
+      .from("patients")
+      .update({ messaged: true })
+      .eq("id", id);
+
+    fetchPatients();
+  };
+
   // 🔍 Filter patients
   const filtered = patients.filter((p) =>
     p.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -102,15 +112,27 @@ export default function AdminPage() {
               <th className="px-6 py-3 text-left text-sm font-semibold text-cyan-400 uppercase">Name</th>
               <th className="px-6 py-3 text-left text-sm font-semibold text-cyan-400 uppercase">Service</th>
               <th className="px-6 py-3 text-left text-sm font-semibold text-cyan-400 uppercase">Phone</th>
+              <th className="px-6 py-3 text-left text-sm font-semibold text-cyan-400 uppercase">Status</th>
               <th className="px-6 py-3 text-right text-sm font-semibold text-cyan-400 uppercase">Actions</th>
             </tr>
           </thead>
+
           <tbody className="divide-y divide-gray-700">
             {filtered.map((p) => (
               <tr key={p.id} className="hover:bg-gray-800 transition-colors">
                 <td className="px-6 py-4 text-white">{p.name}</td>
                 <td className="px-6 py-4 text-gray-300">{p.service}</td>
                 <td className="px-6 py-4 text-gray-300">{p.phone}</td>
+
+                {/* ✅ Status Column */}
+                <td className="px-6 py-4">
+                  {p.messaged ? (
+                    <span className="text-green-400 font-semibold">Sent ✅</span>
+                  ) : (
+                    <span className="text-red-400 font-semibold">Not Sent ❌</span>
+                  )}
+                </td>
+
                 <td className="px-6 py-4 text-right flex justify-end gap-2">
                   <button
                     onClick={() => setEditing(p)}
@@ -118,26 +140,30 @@ export default function AdminPage() {
                   >
                     Edit
                   </button>
+
                   <button
                     onClick={() => handleDelete(p.id)}
                     className="px-3 py-1 bg-red-500 rounded-lg text-sm hover:bg-red-400 transition-colors"
                   >
                     Delete
                   </button>
-                   <a
-  href={`https://wa.me/${p.phone.replace(/\D/g, "")}?text=${encodeURIComponent(
-    `*Hambalyo!* 🎉
+
+                  {/* 📩 WhatsApp Button */}
+                  <a
+                    href={`https://wa.me/${p.phone.replace(/\D/g, "")}?text=${encodeURIComponent(
+                      `*Hambalyo!* 🎉
 Waxaad ka mid tahay guulaystayaasha. 
 qiimihii ramadanka ayaana lagugu shaqayn doona
 Soo booqo xarunta i.n waan ku soo dhaweyn doonaa.
 Wixii su’aal ah ee aad qabtid, noo reeb i.n waan ku soo jawaabi doonaa. 🤲`
-  )}`}
-  target="_blank"
-  rel="noopener noreferrer"
-  className="px-3 py-1 bg-green-500 text-white rounded-lg text-sm hover:bg-green-400 transition-colors"
->
-  WhatsApp
-</a>
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => markAsMessaged(p.id)}
+                    className="px-3 py-1 bg-green-500 text-white rounded-lg text-sm hover:bg-green-400 transition-colors"
+                  >
+                    WhatsApp
+                  </a>
                 </td>
               </tr>
             ))}
@@ -188,6 +214,7 @@ Wixii su’aal ah ee aad qabtid, noo reeb i.n waan ku soo jawaabi doonaa. 🤲`
               >
                 Save
               </button>
+
               <button
                 onClick={() => setEditing(null)}
                 className="bg-gray-700 px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors"
