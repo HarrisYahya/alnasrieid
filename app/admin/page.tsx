@@ -249,7 +249,7 @@ export default function AdminPage() {
               {/* WhatsApp */}
           <a
   href={`https://wa.me/${p.phone.replace(/\D/g, "")}?text=${encodeURIComponent(
-    `Hello ${p.name}, we received your request for ${p.service}.`
+    `Hi ${p.name}, Waxaa ka midtahay guulaystayaasha waxaan adeegaada  ${p.service}. kugu qaban doona qiimihii Ramadanka Sdhabow`
   )}`}
   target="_blank"
   rel="noopener noreferrer"
