@@ -247,16 +247,17 @@ export default function AdminPage() {
               </button>
 
               {/* WhatsApp */}
-              <a
-                href={`https://wa.me/${p.phone.replace(/\D/g, "")}`}
-                target="_blank"
-                onClick={async () => {
-                  await markAsMessaged(p.id);
-                }}
-                className="px-3 py-1.5 text-xs bg-green-500 text-white rounded-lg hover:bg-green-400 transition"
-              >
-                WhatsApp
-              </a>
+          <a
+  href={`https://wa.me/${p.phone.replace(/\D/g, "")}?text=${encodeURIComponent(
+    `Hello ${p.name}, we received your request for ${p.service}.`
+  )}`}
+  target="_blank"
+  rel="noopener noreferrer"
+  onClick={() => markAsMessaged(p.id)}
+  className="px-3 py-1.5 text-xs bg-green-500 text-white rounded-lg hover:bg-green-400 transition"
+>
+  WhatsApp
+</a>
 
             </div>
           </td>
