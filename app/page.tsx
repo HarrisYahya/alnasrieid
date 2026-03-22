@@ -188,13 +188,16 @@ export default function Page() {
           />
 
           <input
-            name="phone"
-            placeholder="Phone Number"
-            value={form.phone}
-            onChange={handleChange}
-            className="w-full p-3 rounded-xl bg-gray-800 text-white border border-cyan-400"
-            required
-          />
+  name="phone"
+  placeholder="Phone Number (e.g. 0612345678)"
+  value={form.phone}
+  onChange={(e) => {
+    const value = e.target.value.replace(/\D/g, ""); // allow numbers only
+    setForm({ ...form, phone: value });
+  }}
+  className="w-full p-3 rounded-xl bg-gray-800 text-white border border-cyan-400"
+  required
+/>
 
           <select
             name="service"
